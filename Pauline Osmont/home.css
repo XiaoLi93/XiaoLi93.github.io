@@ -1,0 +1,1781 @@
+/*@import url();*/
+body, div, a, h1, h2, h3, h4, h5, h6, p {
+    margin:0;
+    padding:0;
+}
+body{
+    width:100%;
+    height:100%;
+    opacity:1;
+}
+
+body.loading{
+    overflow: hidden;
+}
+
+
+/* 加载页面Loading *****************************************/
+
+body.loading .loader{
+    position:fixed;        /*加载完隐藏，位置是固定不变的*/
+    display:block;
+    opacity:1;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:1000;
+    background:#FFF;
+    transition: none;
+}
+.loader {             /*加载完成后页面消失*/
+    display:block;
+    opacity:0;
+    height:0;
+    width:0;
+    transition: opacity 1s ease-out, height 0s 1s, width 0s 1s;/*opacity和宽高变化的渐变效果*/
+}
+
+/*使加载时旋转的小图标居中*/
+#flip{
+    display:block;
+    width:70px;
+    height:70px;
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    margin:auto;
+    perspective: 800px;            /*视距*/
+    transform-style: preserve-3d;      /*搭建3d环境*/
+    transition: transform 1s;           /* ? */
+    animation: animLoad 1.5s ease-in-out 0s infinite;
+    -webkit-animation: animLoad 1.5s ease-in-out 0s infinite;
+    -moz-animation: animLoad 1.5s ease-in-out 0s infinite;
+    -o-animation: animLoad 1.5s ease-in-out 0s infinite;
+    -ms-animation: animLoad 1.5s ease-in-out 0s infinite;
+
+}
+
+#flip div {
+    display: block;
+    position: absolute;     /*定位后div叠在一起*/
+    width: 100%;
+    height: 100%;
+    backface-visibility:hidden;     /*div旋转时背面是否可见*/
+    -webkit-backface-visibility: hidden;
+}
+
+.logoback {
+    /*将back的位置先设置到旋转180度之后，即屏幕显示图片背面，再进行180度动画旋转回归到正常图片效果*/
+   transform: rotateY( 180deg );
+    -webkit-transform: rotateY( 180deg );
+    -ms-transform: rotateY( 180deg );
+  /*  border:1px solid red;*/
+}
+@keyframes animLoad{
+    from { transform: rotateY( 0deg ); }
+    to   { transform: rotateY( 180deg ); }      /*此时不宜设成360，即不能使用一张图片，一张图片会旋转时背面不可见会有空白效果*/
+}
+@-moz-keyframes animLoad{
+    from { -moz-transform: rotateY( 0deg ); }
+    to   { -moz-transform: rotateY( 180deg ); }
+}
+
+@-o-keyframes animLoad{
+    from { -o-transform: rotateY( 0deg ); }
+    to   { -o-transform: rotateY( 180deg ); }
+}
+
+@-ms-keyframes animLoad{
+    from { -ms-transform: rotateY( 0deg ); }
+    to   { -ms-transform: rotateY( 180deg ); }
+}
+
+
+.content {
+    position:absolute;
+    width:84%;
+    height:auto;
+    left:8%;
+    top:0;
+}
+
+@media screen and (min-width: 1786px) {
+    .content {
+        position:absolute;
+        width:1500px;
+        height:auto;
+        left:50%;
+        margin-left:-750px;
+        top:0;
+    }
+}
+
+
+/* 首页MAIN*****************************************/
+
+#intro{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:url(Homeimage/bg_intro.jpg) no-repeat center;
+    background-size:cover;
+    top:0;
+    z-index:0;
+    transition:top 0.7s cubic-bezier(0.560, 0.025, 0.360, 0.995);    /*换成ease？*/
+    -webkit-transition:top 0.7s cubic-bezier(0.560, 0.025, 0.360, 0.995);
+}
+#intro .none{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background-size:cover;
+    top:-100px;
+    z-index:0;
+    transition:top 0.7s cubic-bezier(0.560, 0.025, 0.360, 0.995);    /*换成ease？*/
+    -webkit-transition:top 0.7s cubic-bezier(0.560, 0.025, 0.360, 0.995);
+}
+/*向上滑动*/
+/*#intro.enter {
+    top:-100%;
+    transition:top 0.7s cubic-bezier(0.560, 0.025, 0.360, 0.995);
+    -webkit-transition:top 0.7s cubic-bezier(0.560, 0.025, 0.360, 0.995);
+}*/
+/* 字体设置*/
+#artdirector, #illustrator {
+    position:absolute;
+    top:40px;
+    height:33px;
+    left:50%;
+    overflow:hidden;
+    font-family:"Futura W01 Book", georgia, sans-serif;
+    font-weight:400;   /*字体加粗*/
+    font-size:14px;
+    letter-spacing:4px;
+    line-height:33px;
+    text-transform:uppercase;
+    color:#FFF;
+    opacity:0.6;
+    -webkit-font-smoothing:antialiased; /*抗锯齿，使字体看起来更清晰舒服*/
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#artdirector {
+    width:180px;
+    margin-left:-180px;
+    border-right:1px solid rgba(255,255,255,0.5);
+}
+
+#illustrator {
+    width:180px;
+    margin-left:30px;
+}
+
+#artdirector span, #illustrator span {
+    display:block;
+    width:180px;
+    height:33px;
+}
+/*loading时在div外被hidden，loading完成后滑动出现*/
+body.loading #artdirector span {
+    margin-left:155px;
+}
+
+body.loading #illustrator span {
+    margin-left:-150px;
+}
+
+body #artdirector span {
+    margin-left:-20px;
+    text-align:right;
+    transition:margin-left 0.6s cubic-bezier(0.415, 0.055, 0.275, 1.000);
+    -webkit-transition:margin-left 0.6s cubic-bezier(0.415, 0.055, 0.275, 1.000);
+}
+
+body #illustrator span {
+    margin-left:0;
+    transition:margin-left 0.6s cubic-bezier(0.415, 0.055, 0.275, 1.000);
+    -webkit-transition:margin-left 0.6s cubic-bezier(0.415, 0.055, 0.275, 1.000);
+}
+
+/*loading时隐藏，loading完成后滑动出现*/
+body.loading #logo {
+    opacity:0;
+}
+
+#logo{
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-left:-25%;
+    margin-top:-18%;
+    width:50%;
+    height:50%;
+    opacity:1;
+    transition:opacity 1.2s 0.4s cubic-bezier(0.415, 0.055, 0.275, 1.000);
+    -webkit-transition:opacity 1.2s 0.4s cubic-bezier(0.415, 0.055, 0.275, 1.000);
+}
+
+#logo img{
+    position:absolute;
+    width:100%;
+}
+
+#awwwards a {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: block;
+    z-index:6;
+    width: 126px;
+    height: 126px;
+    background-image: url(Homeimage/awwwards_top.png);
+    background-repeat: no-repeat;
+    background-position: 4px -23px;
+    background-size: 145px 145px;
+}
+nav {
+    position:fixed;
+    top:78%;
+    width:100%;
+    z-index:20;
+}
+
+
+/*小图标，在首页主页上是不显示的*/
+#logosmall {
+    position:absolute;
+    left:50%;
+    margin-left:-35px;
+    opacity:0;
+    cursor:pointer;
+    transform:scale(0.1);
+    -ms-transform:scale(0.1);
+    -moz-transform:scale(0.1);
+    -webkit-transform:scale(0.1);
+    transition:all 0.3s ease-out;
+    -webkit-transition:all 0.3s ease-out;
+}
+/*当滚动条滚动一定距离后小图标显示*/
+nav.enter #logosmall {
+    opacity:1;
+    transform:scale(1);       /*缩放*/
+    -ms-transform:scale(1);
+    -moz-transform:scale(1);
+    -webkit-transform:scale(1);
+    transition:all 0.5s 0.2s ease-out;
+    -webkit-transition:all 0.5s 0.2s ease-out;
+}
+nav.navtop {
+    top:60px !important;
+    transition:top 0.5s ease-out;
+    -webkit-transition:top 0.5s ease-out;
+}
+
+/*页码效果设置*/
+.menu {
+    width:120px;
+    height:100px;
+    font-family:"微软雅黑";
+    font-size:60px;
+    font-weight:600;
+    color:#cdb586;
+    text-align:right;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /*linear-gradient  线性渐变*/
+    background-image: linear-gradient(90deg, #cdb586 50%, rgba(152,152,152,0.8) 50%), url(Homeimage/barre0.png);
+    background-position:0px 68px, 58px 30px;    /*设置检索对象的背景图像位置向右，向下偏移*/
+    background-size:200% 3px, 19px 18px;          /*规定背景图像的尺寸*/
+    background-repeat:no-repeat, no-repeat;
+    opacity:0.6;
+    transition:all 0.2s ease-out;
+    -webkit-transition:all 0.2s ease-out;
+    cursor:pointer;
+}
+
+/*首页主页面字体*/
+.menu span.label {
+    position:absolute;
+    bottom:0;
+    left:0;
+    text-align:left;
+    font-family:"Futura W01 Heavy", arial, sans-serif;
+    font-weight:normal;
+    font-size:16px;
+    letter-spacing:4px;
+    line-height:16px;
+    text-transform:uppercase;
+    color:#FFF;
+    opacity:0.6;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:all 0.2s ease-out;
+    -webkit-transition:all 0.2s ease-out;
+}
+/*滚动条滚动一定距离后字体颜色变化*/
+nav.enter .menu span.label {
+    color:#000;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:3px;
+}
+/*loading时隐藏在页面下方，loading完成后滑动出现*/
+body.loading .menuworks, body.loading .menuabout, body.loading .menublog, body.loading .menucontact {
+    top:300px;
+}
+.menuworks, .menuabout {
+    top:0;
+    position:absolute;
+    left:50%;
+}
+
+.menublog, .menucontact {
+    top:0;
+    position:absolute;
+    right:50%;
+}
+
+.menuworks {
+    margin-left:-460px;
+    transition:top 0.4s 0.2s ease-out, background-position 0.2s ease-out, opacity 0.2s ease-out, left 0.2s ease-out, margin-left 0.2s ease-out;
+    -webkit-transition:top 0.4s 0.2s ease-out, background-position 0.2s ease-out, opacity 0.2s ease-out, left 0.2s ease-out, margin-left 0.2s ease-out;
+}
+
+/*滚动条向下时显示的页面即为01页面，所以01为选中状态*/
+nav.enter .menuworks {
+    left:8%;
+    margin:0;
+    opacity: 1;
+    background-position:0 36px, 80px 7px !important;
+    background-size:200% 3px, 11px 10px !important;
+    background-repeat:no-repeat, no-repeat !important;
+}
+.menuabout {
+    margin-left:-180px;
+    transition:top 0.4s 0.3s  ease-out, background-position 0.2s ease-out, opacity 0.2s ease-out, left 0.2s ease-out, margin-left 0.2s ease-out;
+    -webkit-transition:top 0.4s 0.3s  ease-out, background-position 0.2s ease-out, opacity 0.2s ease-out, left 0.2s ease-out, margin-left 0.2s ease-out;
+}
+nav.enter .menuabout {
+    left:28%;
+    margin:0;
+}
+.menublog {
+    margin-right:-200px;
+    transition:top 0.4s 0.4s  ease-out, background-position 0.2s ease-out, opacity 0.2s ease-out, right 0.2s ease-out, margin-right 0.2s ease-out;
+    -webkit-transition:top 0.4s 0.4s  ease-out, background-position 0.2s ease-out, opacity 0.2s ease-out, right 0.2s ease-out, margin-right 0.2s ease-out;
+}
+nav.enter .menublog {
+    right:28%;
+    margin:0;
+}
+.menucontact {
+    margin-right:-480px;
+    transition:top 0.4s 0.5s ease-out, background-position 0.2s ease-out, opacity 0.2s ease-out, right 0.2s ease-out, margin-right 0.2s ease-out;
+    -webkit-transition:top 0.4s 0.5s ease-out, background-position 0.2s ease-out, opacity 0.2s ease-out, right 0.2s ease-out, margin-right 0.2s ease-out;
+}
+nav.enter .menucontact {
+    right:8%;
+    margin:0;
+}
+
+.menu:hover{
+    background-position:0 68px, 35px 30px ;
+    background-size:200% 3px, 19px 18px ;
+    background-repeat:no-repeat, no-repeat;
+    opacity:1;
+}
+nav.enter .menu:hover {
+    background-position:0 36px, 79px 7px ;
+    background-size:200% 3px, 11px 10px ;
+    background-repeat:no-repeat, no-repeat;
+}
+
+/*滚动条滚动到一定距离后，页码缩小*/
+nav.enter .menu {
+    font-size:20px;
+    height:65px;
+    background-position:-40px 36px, 93px 7px ;
+    background-size:200% 3px, 11px 10px ;
+    background-repeat:no-repeat, no-repeat ;
+}
+
+
+
+
+
+
+/* 上滑显示的页面 Grid *****************************************/
+
+#grid {
+    position:absolute;
+    top:100%;                 /*top为整个页面高度值*/
+    width:100%;
+    z-index:1;
+    opacity:1;
+    min-height: 1500px;
+    transition:top 0.7s cubic-bezier(0.560, 0.025, 0.360, 0.995), opacity 2s ease-in-out, height 0s linear;
+    -webkit-transition:top 0.7s cubic-bezier(0.560, 0.025, 0.360, 0.995), opacity 2s ease-in-out, height 0s linear;
+}
+#grid .content {
+    position:absolute;     /*根据grid的min-height，高度height为1500，包括top:300px*/
+    top:300px;  
+}
+
+/* 点击图片后显示的内容 */
+#grid.fade{
+    opacity:0;
+    height:0;
+    min-height:0;
+    overflow:hidden;
+    transition:opacity 1s ease-in-out, height 0s 1s linear;
+    -webkit-transition:opacity 1s ease-in-out, height 0s 1s linear;
+}
+
+.item1 img, .item2 img, .item3 img {
+    position:relative;
+    z-index:0;
+    opacity:1;
+    width:100%;
+    height:auto;
+    display:block;
+    transition:opacity 0.3s linear;
+    -webkit-transition:opacity 0.3s linear;
+}
+
+
+.item{
+   position:relative; 
+   height:auto;
+   cursor:pointer;
+}
+
+.item1 {
+    width:50%;
+    height:auto;
+    float:left;
+}
+
+.item2 {
+    width:60%;
+    height:auto;
+    float:left;
+}
+
+.item3 {
+    width:40%;
+    height:auto;
+    float:left;
+}
+
+
+
+
+#grid_bg {
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:100%;
+    z-index:0;
+    background:url(background/general.jpg);
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center ;
+    transition:background 0.8s linear;
+    -webkit-transition:background 0.8s linear;
+}
+
+
+#grid_bg.fx {
+    position:fixed;
+    top:0;
+}
+
+#grid_bg.girl{
+    background:url(background/girl/bg_nb.jpg);
+}
+#grid_bg.ipad {
+    background:url(background/ipad/bg_nb.jpg);
+}
+#grid_bg.road {
+    background:url(background/road/bg_nb.jpg);
+}
+#grid_bg.art {
+    background:url(background/art/bg_nb.jpg);
+}
+#grid_bg.sketch {
+    background:url(background/sketch/bg_nb.jpg);
+}
+#grid_bg.origami {
+    background:url(background/origami/bg_nb.jpg);
+}
+#grid_bg.bear {
+    background:url(background/bear/bg_nb.jpg);
+}
+#grid_bg.knight {
+    background:url(background/knight/bg_nb.jpg);
+}
+#grid_bg.guitarist {
+    background:url(background/guitarist/bg_nb.jpg);
+}
+#grid_bg.notebook {
+    background:url(background/notebook/bg_nb.jpg);
+}
+#grid_bg.house {
+    background:url(background/house/bg_nb.jpg);
+}
+#grid_bg.telephone {
+    background:url(background/telephone/bg_nb.jpg);
+}
+#grid_bg.man {
+    background:url(background/man/bg_nb.jpg);
+}
+#grid_bg.crystal {
+    background:url(background/crystal/bg_nb.jpg);
+}
+
+/* 遮罩层 */
+.mask{
+    position:absolute;
+    z-index: 200;
+    opacity: 0;
+    background-color: yellowgreen;
+    width:100%;
+    height:100%;
+    top:0;
+    transition:opacity 0.3s linear;
+    -webkit-transition:opacity 0.3s linear;
+}
+.mask:hover{
+    opacity: 0.7;
+}
+
+.item .info_container {
+    display: table;/* table-cell同样会被其他一些CSS属性破坏，例如float, position:absolute*/
+    height: 100%;
+    width: 100%;
+}
+.item .info {
+    position:relative;
+    display: table-cell;
+    vertical-align: middle;
+    width:100%;
+    /*top:18%*/;
+}
+.item h2{
+    position:relative;
+    opacity:0;
+    width: 80%;
+    margin:0 auto;
+    text-align:center;
+    font-family: Prata, Georgia, sans-serif;
+    font-size:50px;
+    line-height:60px;
+    letter-spacing:4px;
+    font-weight:normal;
+    color:#FFF;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:opacity 0.3s 0.4s ease-in;      /*第一个平滑移入时间第二个为延迟时间*/
+    -webkit-transition:opacity 0.3s 0.4s ease-in;
+
+}
+
+.item:hover h2 {
+    opacity:1;
+}
+
+
+
+.item .line {         
+    position:relative;
+    width:100%;
+    height:70px;
+    margin-top:40px;
+    margin-bottom:40px;
+    background: linear-gradient(to top, rgba(255,233,191,0) 50%, rgba(255,233,191,1) 50%);
+    background-position:center bottom;
+    background-size:4px 200%;
+    background-repeat:no-repeat;
+    transition:background-position 0.3s 0.7s ease-out;
+    -webkit-transition:background-position 0.3s 0.7s ease-out;
+}
+
+.item:hover .line {
+    background-position:center top;
+}
+
+.item .role {
+    position:relative;
+    width:80%;
+    margin:0 auto;
+    text-align:center;
+    font-family:Prata, Georgia, sans-serif;
+    font-size:15px;
+    line-height:20px;
+    letter-spacing:1px;
+    color:#ffe9bf;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.item .role span {
+    opacity:0;
+}
+
+.item:hover .role span.role1 {
+    opacity:1;
+    transition:opacity 0.5s 1s ease-out;
+    -webkit-transition:opacity 0.5s 1s ease-out;
+}
+
+
+.item:hover .role span.role2 {
+    opacity:1;
+    transition:opacity 0.5s 1.2s ease-out;
+    -webkit-transition:opacity 0.5s 1.2s ease-out;
+}
+
+.item:hover .role span.role3 {
+    opacity:1;
+    transition:opacity 0.5s 1.5s ease-out;
+    -webkit-transition:opacity 0.5s 1.5s ease-out;
+}
+
+.item:hover .role span.role4 {
+    opacity:1;
+    transition:opacity 0.5s 1.7s ease-out;
+    -webkit-transition:opacity 0.5s 1.7s ease-out;
+}
+
+
+
+
+/* PROJET *****************************************/
+
+/*图片名为背景图片，nav为content内容，projet为左右点击页面显示*/
+#projet_bg {      /*背景图*/
+    position:fixed;
+    z-index:0;
+    top:0;
+    width:100%;
+    height:0;
+    opacity:0;
+    background-repeat:no-repeat ;
+    background-position:center center ;
+    background-size:cover ;
+}
+body.girl #projet_bg,
+body.ipad #projet_bg, 
+body.road #projet_bg, 
+body.art #projet_bg, 
+body.sketch #projet_bg, 
+body.bear #projet_bg, 
+body.knight #projet_bg, 
+body.guitarist #projet_bg, 
+body.artspire #projet_bg, 
+body.notebook #projet_bg, 
+body.house #projet_bg, 
+body.telephone #projet_bg, 
+body.man #projet_bg,
+body.crystal #projet_bg, 
+body.origami #projet_bg {
+    height:100%;
+    opacity:1;
+    transition:opacity 2s 0.3s linear, background 0s linear;
+    -webkit-transition:opacity 2s 0.3s linear, background 0s linear;
+}
+
+/* 点击图片后的新的背景图*/
+body.girl #projet_bg { background:url(background/girl/bg.jpg); }
+body.ipad #projet_bg { background:url(background/ipad/bg.jpg); }
+body.road #projet_bg { background:url(background/road/bg.jpg); }
+body.art #projet_bg { background:url(background/art/bg.jpg); }
+body.sketch #projet_bg { background:url(background/sketch/bg.jpg); }
+body.bear #projet_bg { background:url(background/bear/bg.jpg); }
+body.knight #projet_bg { background:url(background/knight/bg.jpg); }
+body.guitarist #projet_bg { background:url(background/guitarist/bg.jpg); }
+body.notebook #projet_bg { background:url(background/notebook/bg.jpg); }
+body.house #projet_bg { background:url(background/house/bg.jpg); }
+body.telephone #projet_bg { background:url(background/telephone/bg.jpg); }
+body.man #projet_bg { background:url(background/man/bg.jpg); }
+body.crystal #projet_bg { background:url(background/crystal/bg.jpg); }
+body.origami #projet_bg { background:url(background/Origami/bg.jpg); }
+
+/*点击nav图标后背景图恢复*/
+body.closing #projet_bg {
+    opacity:0;
+    transition:opacity 1s 2s linear, height 0s 3s linear, background 0s 3s linear;
+    -webkit-transition:opacity 1s 2s linear, height 0s 3s linear, background 0s 3s linear;
+}
+
+
+
+#projet{            /*新页面的整个页面*/
+    position: absolute;
+    z-index:0;
+    top:0;
+    width:100%;
+    height:0;
+    opacity:0;
+    transition:opacity 0s 1s linear, height 0s 1s linear;
+    -webkit-transition:opacity 0s 1s linear, height 0s 1s linear;
+
+}
+body.projet #projet {   
+    height:auto;
+    min-height:100%;
+    opacity:1;
+    transition:opacity 1s linear;
+    -webkit-transition:opacity 1s linear;
+}
+ 
+
+
+#projet_intro {
+    position:fixed;
+    z-index:0;
+    width:100%;
+    height:0;
+    opacity:1;
+    display:table;
+    transition:height 0s 1s linear;
+    -webkit-transition:height 0s 1s linear;
+}
+
+.title {
+    position:relative;
+    width:80%;
+    left:10%;
+    display:table-cell;
+    vertical-align:middle;
+    height:auto;
+}
+
+h1 {
+    position:relative;
+    margin:0 auto;
+    opacity:0;
+    width:80%;
+    text-align:center;
+    font-family:Prata, Georgia, sans-serif;
+    font-size:90px;
+    line-height:100px;
+    letter-spacing:4px;
+    font-weight:normal;
+    top:170px;
+    color:#FFF;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:opacity 0.2s 0.6s ease-out, margin-top 0.2s 1s ease-out;
+    -webkit-transition:opacity 0.2s 0.6s ease-out, margin-top 0.2s 1s ease-out;
+}
+
+body.projet #projet h1 {
+    opacity:1;
+    transition:opacity 0.5s 0.5s ease-in;
+    -webkit-transition:opacity 0.5s 0.5s ease-in;
+}
+
+#projet .line {
+    position:relative;
+    width:100%;
+    height:70px;
+    top:170px;
+    margin-top:50px;
+    margin-bottom:50px;
+    background: linear-gradient(to top, rgba(255,255,255,0) 50%, rgba(255,255,255,1) 50%);
+    background-position:center bottom;
+    background-size:4px 200%;
+    background-repeat:no-repeat;
+    transition:background-position 0.2s 0.4s ease-out;
+    -webkit-transition:background-position 0.2s 0.4s ease-out;
+}
+
+body.projet #projet .line {
+    background-position:center top;
+    transition:background-position 0.2s 1.4s ease-out;
+    -webkit-transition:background-position 0.2s 1.4s ease-out;
+}
+
+#projet .role {
+    position:relative;
+    width:80%;
+    margin:0 auto;
+    top:170px;
+    text-align:center;
+    font-family:Prata, Georgia, sans-serif;
+    font-size:15px;
+    line-height:20px;
+    letter-spacing:1px;
+    color:#FFFFFF;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body.projet #projet .role span {
+    opacity:0;
+    transition:opacity 0.2s 1.8s ease-out;
+    -webkit-transition:opacity 0.2s 1.8s ease-out;
+}
+
+#projet .role span.role1, #projet .role span.role2, #projet .role span.role3, #projet .role span.role4 {
+    opacity:0;
+    transition:opacity 0.2s ease-out;
+    -webkit-transition:opacity 0.2s ease-out;
+}
+
+body.projet #projet .role span.role1 {
+    opacity:1;
+    transition:opacity 0.5s 1.8s ease-out;
+    -webkit-transition:opacity 0.5s 1.8s ease-out;
+}
+
+
+body.projet #projet .role span.role2 {
+    opacity:1;
+    transition:opacity 0.5s 2.3s ease-out;
+    -webkit-transition:opacity 0.5s 2.3s ease-out;
+}
+
+body.projet #projet .role span.role3 {
+    opacity:1;
+    transition:opacity 0.5s 2.5s ease-out;
+    -webkit-transition:opacity 0.5s 2.5s ease-out;
+}
+
+body.projet #projet .role span.role4 {
+    opacity:1;
+    transition:opacity 0.5s 2.7s ease-out;
+    -webkit-transition:opacity 0.5s 2.7s ease-out;
+}
+
+
+#projet .mousescroll {
+    position:absolute;
+    bottom:8%;
+    left:50%;
+    margin-left:-10px;
+    width:21px;
+    height:37px;
+    opacity:0;
+    background:url(projet/mousescroll.png) no-repeat;
+    transition:opacity 0.2s ease-out;
+    -webkit-transition:opacity 0.2s ease-out;
+}
+
+body.projet #projet .mousescroll {
+    opacity:1;
+    transition:opacity 0.5s 2.3s ease-out;
+    -webkit-transition:opacity 0.5s 2.3s ease-out;
+}
+
+body.projet #projet #projet_intro, #projet_intro.transition {
+    height:100%;
+}
+
+
+
+
+
+
+
+#projet_content {
+    position:absolute;
+    top:100%;
+    z-index:6;
+    width:100%;
+    height:auto;
+    background:#FFF;
+    display:none;
+    padding-bottom:300px;
+}
+
+body.nav #projet_content {
+    display:block; 
+}
+
+body.nav #projet_content.transition {
+    display:none;
+}
+
+#projet_info {
+    position:relative;
+    width:84%;
+    max-width:1500px;
+    height:auto;
+    margin:100px auto;
+    padding:110px 150px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body.girl #projet_info { background:#7b6e6e; }
+body.origami #projet_info { background:#d8cda4; }
+body.man #projet_info { background:#99d1d1; }
+body.bear #projet_info { background:#e4e5e3; }
+body.art #projet_info { background:#e21c39; }
+body.crystal #projet_info { background:#90c2ce; }
+body.house #projet_info { background:#d4d4d4; }
+body.ipad #projet_info { background:#f654a8; }
+body.guitarist #projet_info { background:#cabfc0; }
+body.knight #projet_info { background:#ded3c3; }
+body.notebook #projet_info { background:#35c0be; }
+body.sketch #projet_info { background:#ca0047; }
+body.telephone #projet_info { background:#7cd2d1; }
+body.road #projet_info { background:#b7aca8; }
+
+
+#projet_info p {
+    font-family:"Futura W01 Book", Arial, sans-serif;
+    font-size:14px;
+    line-height:26px;
+    color:#FFF;
+    width:260px;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#projet_info ul, #projet_info li {
+    margin:0;
+    padding:0;
+    list-style:none;
+    font-family:"Futura W01 Book", Arial, sans-serif;
+    font-size:12px;
+    line-height:20px;
+    letter-spacing:1px;
+    color:#FFF;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body.antoinelestage #projet_info ul, body.antoinelestage  #projet_info li, body.antoinelestage  #projet_info p {
+    color:#8c8c8c;
+}
+
+#projet_info ul {
+    margin-top:30px;
+}
+
+#projet_info span {
+    text-transform:uppercase;
+    font-family:"Futura W01 Heavy", Arial, sans-serif;
+}
+
+
+
+#viewcasestudy {
+    position: absolute;
+    display:block;
+    bottom: 90px;
+    right: 0;
+    font-family: "Futura W01 Heavy", Arial, sans-serif;
+    font-size: 10px;
+    line-height: 20px;
+    letter-spacing: 2px;
+    padding-left: 50px;
+    font-weight: normal;
+    text-transform: uppercase;
+    color: #FFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -ms-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    transform: rotate(270deg);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    background: linear-gradient(to right, #FFF 50%, #FFF 50%) no-repeat left center;
+    background-size:2px 30px;
+    cursor:pointer;
+}
+
+
+#backtotop {
+    margin:60px auto 0 auto;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    border:1px solid #000;
+    cursor:pointer;
+    background-image: linear-gradient(to top, #000 50%, #FFF 50%);
+    background-position:top center;
+    background-repeat:repeat;
+    background-size:100% 200%;
+    transition:all 0.2s ease-out;
+}
+
+#backtotop:hover {
+    background-position:bottom center;
+}
+
+#backtotop svg polygon {
+    fill:#000;
+    transition:all 0.2s ease-out;
+}
+
+#backtotop:hover svg polygon {
+    fill:#FFF !important;
+}
+#screenshots {
+    position: relative;
+    width: 84%;
+    max-width:1500px;
+    margin:0 auto;
+    height: auto;
+}
+
+.demi {
+    width:50%;
+    height:auto;
+    float:left;
+    perspective:600px;          /*视距*/
+    -webkit-perspective:600px;
+}
+
+.full {
+    width:100%;
+    height:auto;
+    clear:both;
+    perspective:600px;
+    -webkit-perspective:600px;
+}
+
+.demi img, .full img {
+    width:100%;
+    height:auto;
+    display:block;
+}
+
+#screenshots img {
+    opacity:0.7;
+    transform:rotateX(12deg);
+    -webkit-transform:rotateX(12deg);
+}
+
+#screenshots .display img {
+    opacity:1;
+    transform:rotateX(0deg);
+    -webkit-transform:rotateX(0deg);
+    transition:all 0.2s ease-out;
+    -webkit-transition:all 0.2s ease-out;
+}
+
+
+
+
+
+
+
+
+/* NAVIGATION PROJET *****************************************/
+
+
+
+.previous {
+    position:fixed;
+    z-index:4;
+    overflow:hidden;
+    width:140px;
+    height:100%;
+    top:0;
+    left:-140px;
+    opacity:0;
+    cursor:pointer;
+    background:url(projet/transparent.png);
+    background-repeat:no-repeat;
+    background-size:cover;
+}
+
+body.nav .previous {
+    left:0;
+    opacity:1;
+    transition:opacity 0.5s 2.3s ease-out, left 0.5s 2.3s ease-out, width 0s;
+    -webkit-transition:opacity 0.5s 2.3s ease-out, left 0.5s 2.3s ease-out, width 0s;
+}
+
+body.nav .previous.transition {
+    width:100%;
+    transition:background 0.5s ease-out, width 1s 0.8s ease-in-out;
+    -webkit-transition:background 0.5s ease-out, width 1s 0.8s ease-in-out;
+} 
+
+
+body.nav .previous span {
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: -20px;
+    height: 60px;
+    padding-top: 80px;
+    text-align: center;
+    width: 200px;
+    font-family: "Futura W01 Heavy", Arial, sans-serif;
+    font-size: 15px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #FFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: url(projet/fleche_prev.png);
+    background-repeat: no-repeat;
+    background-position: center 35px;
+    background-size: 11px 7px;
+    -ms-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    transform: rotate(270deg);
+    transition: left 0.2s ease-out, background-position 0.2s ease-out;
+    -webkit-transition: left 0.2s ease-out, background-position 0.2s ease-out;
+}
+
+body.nav .previous:hover span {
+    left:-50px;
+    background-position: center 0;
+}
+
+.next {
+    position:fixed;
+    z-index:4;
+    overflow:hidden;
+    width:140px;
+    height:100%;
+    top:0;
+    right:-140px;
+    background-size:7px 11px;
+    opacity:0;
+    cursor:pointer;
+    background:url(projet/transparent.png);
+    background-repeat:no-repeat;
+    background-size:cover;
+}
+
+body.nav .next {
+    right:0;
+    opacity:1;
+    transition:opacity 0.5s 2.3s ease-out, right 0.5s 2.3s ease-out, width 0s;
+    -webkit-transition:opacity 0.5s 2.3s ease-out, right 0.5s 2.3s ease-out, width 0s;
+}
+
+
+/*此时的100%是占据整个页面的100%，不再受140px的限制*/
+body.nav .next.transition {
+    width:100%;
+    transition:background 0.5s ease-out, width 1s 0.8s ease-in-out;
+    -webkit-transition:background 0.5s ease-out, width 1s 0.8s ease-in-out;
+}
+
+body.nav .next span {
+    position: absolute;
+    display: block;
+    top: 50%;
+    right: -20px;
+    height: 20px;
+    padding-bottom: 80px;
+    padding-top: 40px;
+    margin-top: -10px;
+    text-align: center;
+    width: 200px;
+    font-family: "Futura W01 Heavy", Arial, sans-serif;
+    font-size: 15px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #FFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin-top: -10px;
+    background: url(projet/fleche_next.png);
+    background-repeat: no-repeat;
+    background-position: center 90px;
+    -ms-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    transform: rotate(270deg);
+    transition: right 0.2s ease-out;
+    -webkit-transition: right 0.2s ease-out;
+}
+
+body.nav .next:hover span {
+    right:-60px;
+    background-position: center 110px;
+}
+
+
+
+body.nav .previous .previous_bg {
+    background-repeat:no-repeat;
+    background-size:cover ;
+    background-position:center center ;
+    width:100%;     /*早就设定好宽为140px*/
+    height:100%;
+    left:0;
+    position:absolute;
+    opacity:0;
+    transition:background 0.5s ease-out;
+    -webkit-transition:background 0.5s ease-out;
+}
+
+body.nav .previous:hover .previous_bg, body.nav .next:hover .next_bg, body.nav .previous.transition .previous_bg, body.nav .next.transition .next_bg {
+    opacity:1;
+    transition:opacity 0.5s ease-out;
+    -webkit-transition:opacity 0.5s ease-out;
+}
+
+body.nav .next .next_bg {
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center center;
+    width:100%;
+    height:100%;
+    right:0;
+    position:absolute;
+    opacity:0;
+    transition:background 0.5s ease-out;
+    -webkit-transition:background 0.5s ease-out;
+}
+
+body.nav.girl .previous .previous_bg { background:url(background/crystal/bg.jpg); }
+body.nav.telephone .previous .previous_bg { background:url(background/girl/bg.jpg); }
+body.nav.bear .previous .previous_bg { background:url(background/house/bg.jpg); }
+body.nav.crystal .previous .previous_bg { background:url(background/origami/bg.jpg); }
+body.nav.guitarist .previous .previous_bg { background:url(background/knight/bg.jpg); }
+body.nav.house .previous .previous_bg { background:url(background/notebook/bg.jpg); }
+body.nav.ipad .previous .previous_bg { background:url(background/telephone/bg.jpg); }
+body.nav.knight .previous .previous_bg { background:url(background/sketch/bg.jpg); }
+body.nav.art .previous .previous_bg { background:url(background/road/bg.jpg); }
+body.nav.man .previous .previous_bg { background:url(background/bear/bg.jpg); }
+body.nav.notebook .previous .previous_bg { background:url(background/guitarist/bg.jpg); }
+body.nav.road .previous .previous_bg { background:url(background/ipad/bg.jpg); }
+body.nav.sketch .previous .previous_bg { background:url(background/art/bg.jpg); }
+body.nav.origami .previous .previous_bg { background:url(background/man/bg.jpg); }
+
+
+body.nav.girl .next .next_bg { background:url(background/telephone/bg.jpg); }
+body.nav.telephone .next .next_bg { background:url(background/ipad/bg.jpg); }
+body.nav.bear .next .next_bg { background:url(background/man/bg.jpg); }
+body.nav.crystal .next .next_bg { background:url(background/girl/bg.jpg); }
+body.nav.guitarist .next .next_bg{ background:url(background/notebook/bg.jpg); }
+body.nav.house .next .next_bg { background:url(background/bear/bg.jpg); }
+body.nav.ipad .next .next_bg { background:url(background/road/bg.jpg); }
+body.nav.knight .next .next_bg { background:url(background/guitarist/bg.jpg); }
+body.nav.art .next .next_bg { background:url(background/sketch/bg.jpg); }
+body.nav.man .next .next_bg { background:url(background/origami/bg.jpg); }
+body.nav.notebook .next .next_bg { background:url(background/house/bg.jpg); }
+body.nav.road .next .next_bg { background:url(background/art/bg.jpg); }
+body.nav.sketch .next .next_bg { background:url(background/knight/bg.jpg); }
+body.nav.origami .next .next_bg { background:url(background/crystal/bg.jpg); }
+
+
+/* ABOUT *****************************************/
+
+
+#about {
+    position:absolute;
+    width:100%;
+    top:100%;
+    background:#FFF;
+    z-index:9;
+    padding:250px 0 300px 0;
+    opacity:1;
+    height:0;
+    min-height:100%;
+    transition:all 1s ease-out;
+    -webkit-transition:all 1s ease-out;
+}
+
+
+.self{
+    z-index:8;
+    background:#FFF;
+    position:fixed;
+    width:100%;
+    height:0;
+    opacity:0;
+    transition:opacity 0.5s 2s ease-out, height 0s 2.5s ease-out;;
+    -webkit-transition:opacity 0.5s 2s ease-out, height 0s 2.5s ease-out;;;
+}
+
+body.about .self, body.contact .self {
+    opacity:1;
+    height:100%;
+    transition:opacity 0s 0.5s ease-out, height 0s 0.5s ease-out;
+    -webkit-transition:opacity 0s 0.5s ease-out, height 0s 0.5s ease-out;
+}
+
+#about.pfix {
+    position:fixed;
+    min-height:0;
+    opacity:0;
+}
+body.about #about {
+    position:absolute;
+    opacity:1;
+    height:auto;
+    z-index: 10;
+    top:0;
+    min-height:1000px;
+    transition:all 0.5s ease-out;
+    -webkit-transition:all 0.5s ease-out;
+}
+
+
+#about_info{
+    position:relative;
+    display:table;
+    width:84%;
+    margin:0 auto;
+    opacity:0;
+    height:0;
+    transition:height 1s 0.5s ease-in-out, opacity 1.5s;
+    -webkit-transition:height 1s 0.5s ease-in-out, opacity 1.5s;
+}
+
+body.about #about_info{
+    height:480px;
+    opacity:1;
+    transition:opacity 1s 1s ease-in-out, height 1s 1s ease-in-out;
+    -webkit-transition:opacity 1s 1s ease-in-out, height 1s 1s ease-in-out;
+}
+
+#about_info .image, #contact_info .image {
+    position:absolute;
+    z-index:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+#about_info img, #contact_info img {
+    position:absolute;
+    z-index:0;
+    width:100%;
+    height:auto;
+    top:0;
+    left:0;
+    margin-top:0;
+}
+
+#about_info p {
+    position:relative;
+    display:table-cell;
+    vertical-align:middle;
+    z-index:1;
+    width:46%;
+    padding-right:100px;
+    font-family:"Futura W01 Book", Arial, sans-serif;
+    font-size:14px;
+    line-height:30px;
+    color:#929292;
+    letter-spacing:1px;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#about_info p span {
+    color:#bdbdbd;
+}
+
+
+#up{
+    left: 48%;
+    bottom: 220px;
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    opacity: 0.7;
+    background: pink;
+}
+#up:hover{
+    opacity: 1;
+    cursor:pointer;
+
+}
+
+#up img{
+    position: absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+}
+#up:hover img{
+    transform:scale(1.5);
+}
+
+
+
+#city_grid {
+    position:relative;
+    width:84%;
+    margin:1000px auto 100px auto;
+    opacity:0;
+    transition:margin 0.5s 1.5s ease-in-out,opacity 0.5s 1.5s ease-in-out;
+    -webkit-transition:margin 0.5s 1.5s ease-in-out,opacity 0.5s 1.5s ease-in-out;
+}
+
+body.about #city_grid {
+    margin:100px auto 100px auto;
+    opacity:1;
+    transition:margin 0.5s 1.5s ease-in-out,opacity 0.5s 1.5s ease-in-out;
+    -webkit-transition:margin 0.5s 1.5s ease-in-out,opacity 0.5s 1.5s ease-in-out;
+}
+
+#city_grid .perspective {
+    perspective:600px;
+    -webkit-perspective:600px;
+    position:relative;
+    width:50%;
+    height:550px;
+    float:left;
+}
+
+.city {
+    position:relative;
+    width:100%;
+    height:100%;
+    padding:50px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    transition:background 0.6s ease-out;
+    -webkit-transition:background 0.6s ease-out;
+    opacity:0.7;
+    transform:rotateX(12deg);
+    -webkit-transform:rotateX(12deg);
+}
+
+.city.display {
+    opacity:1;
+    transform:rotateX(0deg);
+    -webkit-transform:rotateX(0deg);
+    transition:all 0.2s ease-out;
+    -webkit-transition:all 0.2s ease-out;
+}
+
+.lyon {
+    z-index:1;
+    background:url(about/lyon.jpg) no-repeat center center;
+    background-size:cover;
+}
+
+.lyon:before {
+    content: '';
+    width:0;
+    height:0;
+    visibility:hidden;
+    background:url(about/lyon.jpg) center center no-repeat;
+}
+
+.lyon:hover {
+    background:url(about/lyon.jpg) no-repeat center center;
+    background-size:cover;
+}
+
+.montreal {
+    z-index:2;
+    background:url(about/montreal.jpg) no-repeat center center;
+    background-size:cover;
+}
+
+.montreal:before {
+    content: '';
+    width:0;
+    height:0;
+    visibility:hidden;
+    background:url(about/montreal.jpg) center center no-repeat;
+}
+
+
+.montreal:hover {
+    background:url(about/montreal.jpg) no-repeat center center;
+    background-size:cover;
+}
+
+.paris {
+    z-index:3;
+    background:url(about/paris.jpg) no-repeat center center;
+    background-size:cover;
+}
+
+.paris:before {
+    content: '';
+    width:0;
+    height:0;
+    visibility:hidden;
+    background:url(about/paris.jpg) center center no-repeat;
+}
+
+.paris:hover {
+    background:url(about/paris.jpg) no-repeat center center;
+    background-size:cover;
+}
+
+.sunderland {
+    z-index:4;
+    background:url(about/sunderland.jpg) no-repeat center center;
+    background-size:cover;
+}
+
+.sunderland:before {
+    content: '';
+    width:0;
+    height:0;
+    visibility:hidden;
+    background:url(about/sunderland.jpg) center center no-repeat;
+}
+
+.sunderland:hover {
+    background:url(about/sunderland.jpg) no-repeat center center;
+    background-size:cover;
+}
+
+.city_info {
+    position:relative;
+    width:100%;
+    height:100%;
+    background:rgba(169,78,74,0.9);
+    text-align:center;
+    transition:background 0.5s 0.6s ease-out;
+    -webkit-transition:background 0.5s 0.6s ease-out;
+}
+
+.city:hover .city_info {
+    transition:background 0.5s ease-out;
+    -webkit-transition:background 0.5s ease-out;
+}
+
+.degrade {
+    position:absolute;
+    width:100%;
+    height:200px;
+    bottom:0;
+    opacity:1;
+}
+
+
+.lyon .city_info { background:rgba(169,78,74,0.9); }
+.lyon:hover .city_info { background:rgba(169,78,74,0.6); }
+.lyon .degrade { background: linear-gradient(to top, rgba(169,78,74,1) 0%, rgba(169,78,74,0) 100%); }
+.montreal .city_info { background:rgba(19,71,110,0.9); }
+.montreal:hover .city_info { background:rgba(19,71,110,0.6); }
+.montreal .degrade { background: linear-gradient(to top, rgba(19,71,110,1) 0%, rgba(19,71,110,0) 100%); }
+.paris .city_info { background:rgba(120,155,144,0.9); }
+.paris:hover .city_info { background:rgba(120,155,144,0.6); }
+.paris .degrade { background: linear-gradient(to top, rgba(120,155,144,1) 0%, rgba(120,155,144,0) 100%); }
+.sunderland .city_info { background:rgba(203,207,174,0.9); }
+.sunderland:hover .city_info { background:rgba(203,207,174,0.6); }
+.sunderland .degrade { background: linear-gradient(to top, rgba(203,207,174,1) 0%, rgba(203,207,174,0) 100%); }
+
+h3 {
+    position:absolute;
+    top:50%;
+    width:100%;
+    margin-top:-30px;
+    font-family:Prata, Georgia, sans-serif;
+    font-size:65px;
+    line-height:65px;
+    color:#FFF;
+    text-align:center;
+    letter-spacing:8px;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:margin-top 0.2s 0.6s ease-out;
+    -webkit-transition:margin-top 0.2s 0.6s ease-out;
+}
+
+.city:hover h3 {
+    margin-top:-110px;
+    transition:margin-top 0.2s ease-out;
+    -webkit-transition:margin-top 0.2s ease-out;
+}
+
+
+.city_info .line {
+    position:absolute;
+    top:50%;
+    width:100%;
+    height:70px;
+    margin-top:-15px;
+    background: linear-gradient(to top, rgba(255,255,255,0) 50%, rgba(255,255,255,1) 50%);
+    background-position:center bottom;
+    background-size:4px 200%;
+    background-repeat:no-repeat;
+    transition:background-position 0.2s 0.4s ease-out;
+    -webkit-transition:background-position 0.2s 0.4s ease-out;
+}
+
+.city:hover .city_info .line {
+    background-position:center top;
+    transition:background-position 0.2s 0.4s ease-out;
+    -webkit-transition:background-position 0.2s 0.4s ease-out;
+}
+
+.city_info .position {
+    position:absolute;
+    top:50%;
+    width:100%;
+    margin-top:100px;
+    opacity:0;
+    font-family:"Futura W01 Book", arial, sans-serif;
+    font-size:14px;
+    line-height:14px;
+    color:#FFF;
+    text-align:center;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:opacity 0.2s 0.2s ease-out;
+    -webkit-transition:opacity 0.2s 0.2s ease-out;
+}
+
+.city:hover .city_info .position {
+    opacity:1;
+    transition:opacity 0.2s 0.7s ease-out;
+    -webkit-transition:opacity 0.2s 0.7s ease-out;
+}
+
+.year1, .year2 {
+    position:absolute;
+    bottom:20px;
+    font-family:"Futura W01 Book", arial, sans-serif;
+    font-size:10px;
+    line-height:10px;
+    color:#FFF;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    opacity:0;
+    transition:opacity 0.2s ease-out;
+    -webkit-transition:opacity 0.2s ease-out;
+}
+
+.year1 {
+    text-align:left;
+    left:20px;
+}
+
+.year2 {
+    text-align:right;
+    right:20px;
+}
+
+.city:hover .year1, .city:hover .year2 {
+    opacity:1;
+    transition:opacity 0.2s 0.9s ease-out;
+    -webkit-transition:opacity 0.2s 0.9s ease-out;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 页脚 FOOTER *****************************************/
+ 
+footer{
+    position: fixed;
+    bottom:-200px;
+    z-index: 20;
+    width: 100%;
+    height:200px;
+    padding-top:50px;
+    background:#222;
+    font-size:15px;
+    color:#777;
+    font-weight:normal;
+    /*-webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing: grayscale;*/
+    box-sizing:border-box;         width确定后，div的整体宽度不会因border和padding改变大小
+    font-family:'Futura W01 Book', Arial, sans-serif; 
+    transition:bottom 0.5s ease-out;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+} 
+  
+    
+footer.visible {
+    bottom:0;
+}
+  
+  
+  
+footer .content {
+    position:relative;
+    width:84%;           /*高度被撑开*/
+    margin:auto;         /*div居中*/
+    top:0;
+    bottom: 0;
+    right:0;
+    left:0;
+/*  border:2px solid #ccc;
+    overflow: hidden; */
+}   
+
+
+#footerleft {
+    width:50%;
+    float:left;
+    padding-right:50px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box; 
+}
+
+#footerright {
+    width:50%;
+    float:right;
+    padding-left:50px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+/*footer span{
+
+
+}*/
+
+footer span {
+    display:block;   /*行内元素变块元素*/
+    margin-bottom:20px;
+    font-size:20px;
+    letter-spacing:2px;
+    font-family:Prata, Arial, sans-serif;
+    color:#FFF;
+}
+
+footer span.contactme {
+    color:#FFF;
+    display:inline;
+    font-size:15px;
+    letter-spacing:0;
+    font-family:'Futura W01 Book', Arial, sans-serif;
+    cursor:pointer;
+}
+
+footer a {
+    color:#FFF;
+    text-decoration:none;
+}
+
+
+
+
+
+
+
+
+

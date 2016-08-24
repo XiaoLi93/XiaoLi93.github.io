@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>招贤纳士</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script src="js/data.js"></script>
+		<script>
+		window.onload=function(){
+
+			var ser=window.location.search;
+			//search存在的话，直接获取
+			if(ser){
+				var from=ser.substring(1).split("&")[0].split("=")[1];
+				var pn=ser.substring(1).split('&')[1].split('=')[1];
+			}
+			else{
+				var from='sh';
+				var pn=1;
+			}
+
+			//左侧（自动生成，到data里取数据）
+			var leftul=document.querySelector(".left ul");
+
+			for(var i=0;i<aData.list.length;i++){
+				if(from==aData.list[i].lx){    //判断是否为社会招聘
+					var cl='focus';
+				}else{
+					var cl='';
+				}
+				//默认自动补全
+				leftul.innerHTML+= '<li class="'+cl+'"><a href="?s='+aData.list[i].lx+'&p=1">' + aData.list[i].text + '</a></li>';
+			}
+
+
+
+			//右侧（自动生成）
+			var info=document.querySelector(".info");	
+			var title=document.querySelector(".title");
+
+			function getdata(p){
+				info.innerHTML='';
+				/*
+				 * start	循环的起始数字
+				 * end		循环的结束数字
+				 * 		end有的时候会比数据里的最后一条还要大，所以要做一下处理，避免报错
+				 */
+				var start=(p-1)*2;
+				var end=(p-1)*2+2;
+				if(end>aData[from].text.length){
+					end=aData[from].text.length;
+				}
+
+				for(var i=start;i<end;i++){
+					info.innerHTML+='<p class="zp"><span><a href="content.html?s='+from+'#ln='+i+'">★ 职位需求：'+aData[from].text[i].zw+'</a></span><span>需求人数：'+aData[from].text[i].rs+'名</span><span class="date">'+formatDate(aData[from].text[i].sj)+'</span></p><p class="yq">'+getText(aData[from].text[i].info[0].l)+'[<a href="content.html?s='+from+'#ln='+i+'">查看详情</a>]</p>';
+				}
+				title.innerHTML=aData[from].title;
+
+			}
+
+			getdata(pn);
+
+
+
+			//页码
+			var pages=document.querySelector(".pages");
+
+			var prevP=pn-1;
+			if(prevP==0){    //页码最小为1
+				prevP=1;
+			}
+			pages.innerHTML='<a href="?s='+from+'&p='+prevP+'">《</a>';
+			var totalPage=Math.ceil(aData[from].text.length/2);   //向上取整
+			//每次点击页码跳转到页面时会刷新页面，这时候for会重新执行，但是此时的pn就是点击的页码了
+			for(var i=0;i<totalPage;i++){
+				if(pn==i+1){
+					pages.innerHTML+='<a href="?s='+from+'&p='+(i+1)+'" class="active">'+(i+1)+'</a>';
+				}else{
+					pages.innerHTML+='<a href="?s='+from+'&p='+(i+1)+'">'+(i+1)+'</a>';
+				}
+			}
+
+			var nextP=parseInt(pn)+1;
+			if(nextP>totalPage){
+				nextP=totalPage;
+			}
+			pages.innerHTML+='<a href="?s='+from+'&p='+nextP+'">》</a>';
+
+
+			function formatDate(arr){
+					return arr[0]+'年'+arr[1]+'月'+arr[2]+'日';
+				}
+				
+			function getText(arr){
+				var str='';
+				for(var i=0;i<arr.length;i++){
+					str+=arr[i];
+				}
+				return str;
+			}
+
+
+		}
+
+		</script>
+
+
+
+	</head>
+	<body>
+	<div id="wrap">
+		<div class="left">
+			<h2>招贤纳士</h2>
+	        <ul>
+	        	<!--<li class="focus"><a href="javascript:;">社会招聘</a></li>
+			    <li><a href="javascript:;">校园招聘</a></li>-->
+	        </ul>
+		</div>
+		<div class="right">
+			<div class="title">
+	            校园招聘
+	        </div>
+	        <div class="info">
+	        	<!--<p class="zp">
+					<span><a href="">★ 职位需求：测试工程师【社会招聘】</a></span>
+					<span>需求人数：2名</span>
+					<span class="date">2013年7月30日</span>
+				</p>
+				<p class="yq">1.计算机或相关专业本科以上学历；2.从事软件测试工作3年及以上；3.具备良好的沟通能力和快速学习能力；4.精通测试策略和方法、测试用例设计；5.熟悉DB2、AIX等平台的基本操作；6.具备2年以上金...[<a href="">查看详情</a>]
+				</p>-->
+	        </div>
+	        <div class="pages">
+
+	        </div>
+		</div>
+
+		
+	</div>
+
+		
+	</body>
+</html>
+

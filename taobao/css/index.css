@@ -1,0 +1,542 @@
+
+/* 禁用iPhone中Safari的字号自动调整 */
+html {
+    -webkit-text-size-adjust:none;   /*让谷歌浏览器可以设定字体大小*/
+    -ms-text-size-adjust: none;
+}
+
+*{
+	margin:0;
+	padding:0;
+	border:0;        /*注意*/
+}
+
+html {
+    font-size: 100px;
+    width: 100%;
+    height: 100%
+}
+/*当页面小于479大于321的时候，改变html的font-size*/
+@media only screen and (max-width: 479px) and (min-width: 321px) { 
+	html { font-size: 30px; } 
+}
+@media only screen and (max-width: 699px) and (min-width: 480px) { 
+	html { font-size: 60px; } 
+}
+@media only screen and (max-width: 960px) and (min-width: 700px) { 
+	html { font-size: 80px; } 
+}
+body {
+    width: 100%;
+    height: 200%;
+	background-color: #F1F1F1;
+}
+/* 设置HTML5元素为块 */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav,section {
+	display： block;
+}
+
+img {
+	max-width:100%;
+	height:auto;
+}
+
+ul,ol{
+	list-style: none;
+}
+a{
+	color: #333;
+	text-decoration: none;
+}
+div,img,form,input,button{
+	display: block;
+	vertical-align: middle;
+}
+.wrap{
+	width: 100%;
+	height: 100%;
+	background-color: #f1f1f1;
+}
+#bar{
+	position: relative;
+	z-index: 9;
+	width: 100%;
+	height: 48px;
+	display: -webkit-box;      /*不用写float*/
+	background-color: #fff;
+	-webkit-box-shadow: 0 1px 2px #b1b1b1;
+}
+#bar .tao-logo{
+	width: 48px;
+	height: 100%;
+	background: url(../images/applogo.gif) no-repeat -3px 7px;
+	background-color: #FF4300;
+}
+#bar .search{
+	position: relative;
+	-webkit-box-flex: 1;     /*父div除掉logo所占的，剩余的都是search*/
+	padding: 9px 8px 9px 12px;
+}
+
+#bar .search form{
+	width: 100%; 
+}
+.sbox{
+	-webkit-box-sizing: border-box;
+	border: 1px solid #939495;
+	width: 100%;
+	height: 30px;
+	padding: 0 10px;
+	-webkit-box-shadow: inset 0 2px 2px #d7dbdf;
+	overflow: hidden;
+}
+.sbox #stext{
+	-webkit-box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding-right: 16px;
+    font-size: .18rem;
+    background-color: transparent;
+}
+.sbox #sb-submit{
+	-webkit-box-sizing: border-box;
+	position:relative;
+	top: -100%;
+	float: right;
+	width: 16px;
+	height: 100%;
+	background: url(../images/ser.png) no-repeat 0 0 transparent;
+	margin-left: 10px;
+}
+#guide{
+	-webkit-box-sizing: border-box;
+	width: 100%;
+	margin: 0 auto;
+	
+}
+
+#guide #view{
+	width: 100%;
+	height: 3.3rem;
+	margin: 0 auto;
+	overflow: hidden;
+	position: relative;
+}
+#view .sliderwrap{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+#view .sliderwrap .wrap{
+	width: 100%;
+	height: 100%;
+	float: left;
+	position: relative;
+}
+
+#view .sliderwrap .wrap a{
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	text-align: center;
+	background-color: #e8e8e8;
+}
+#view .sliderwrap .wrap img{
+	width: 100%;
+	height: 100%;
+}
+
+#guide .radius{
+	top: -0.4rem;
+    z-index: 100;
+	position: relative;
+	width: 60%;
+	height: 0.5rem;
+	margin: 0 auto;
+	text-align: center;
+
+}
+#guide .radius span{
+	float:left;
+	top: -0.4rem;
+	border-radius: 100%;
+	margin-left:0.9rem;
+	width: .25rem;
+	height: .25rem;
+	background: #ccc;
+}
+#guide #radius span.cur{
+	background:orange;
+}
+
+
+
+
+
+#apps{
+	-webkit-box-sizing: border-box;
+	width: 100%;
+	margin: 14px auto 0;
+	overflow: hidden;
+	position: relative;
+}
+#apps .appwrap{
+	width: 100%;
+	height: 7rem;
+	overflow: hidden;
+}
+.appwrap > figure {
+	float: left;
+	width: 100%;
+	position: relative;
+	margin-right: .2rem;
+	}
+#apps .appbox{
+	-webkit-box-sizing: border-box;
+	width: 100%;
+	padding: 0 8px;
+	float: left;
+}
+#apps .appbox div{
+	width: 100%;
+	display: -webkit-box;
+}
+#apps .appbox div:first-child{
+	margin-bottom: .5rem;
+}
+#apps .appbox a{
+	-webkit-box-flex: 1; 
+	display: block;
+	width: 2rem;
+	height: 3rem;
+	margin-left: 13px;
+}
+
+#apps .appbox a img{
+	margin:0 auto;
+	width: 2rem;
+	height: 2rem;
+	margin-bottom: -0.3rem;
+}
+#apps .appbox a span{
+	display: inline-block;
+	width: 100%;
+	height: .5rem;
+	line-height: .5rem;
+	text-align: center;
+	font-size: .4rem;
+}
+#apps #indicators{
+	width:60%;
+	margin: 0 auto;
+	display: -webkit-box;
+
+}
+#apps #indicators div{    /*span不能使用均分，所以外面可以包一层div*/
+	-webkit-box-flex: 1; 
+}
+
+#apps #indicators span{
+	float:left;
+	top: -0.4rem;
+	border-radius: 100%;
+	margin-left:1.5rem;
+	width: .25rem;
+	height: .25rem;
+	background:#ccc;
+}
+
+#apps #indicators span.cur{
+	background-color:orange;
+}
+h4{
+	-webkit-box-sizing: border-box;
+	width: 100%;
+	height: .4rem;
+	overflow: hidden;
+	text-align: center;
+	background: url(../images/yipx.png) repeat-x 0 center;
+}
+
+h4 span{
+	position: absolute;;
+	display: inline-block;
+	left:0;
+	right:0;
+	margin: auto;
+	width: 1rem;
+	height: .4rem;
+	line-height: .4rem;
+	font-size: .4rem;
+	color: #999;
+	background-color: #f1f1f1;
+}
+#shop{
+	margin-top: .5rem;
+	padding: 0 8px;
+	overflow: hidden;
+}
+.buy .shopping{
+	-webkit-box-sizing: border-box;
+	width: 100%;
+	height: 2.5rem;
+	display: -webkit-box;
+	padding: 0 2px;
+	margin-bottom: .15rem;
+}
+.buy .shopping a{
+	border-radius: 4px;
+	-webkit-box-flex: 1; 
+	display: block;
+	margin-left:.15rem;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	text-align: center;
+	background-color: #e8e8e8;
+}
+.buy .shopping a img{
+	width: 100%;
+	height: 2.5rem;
+}
+#goshop{
+	-webkit-box-sizing: border-box;
+	width: 100%;
+	padding: 0 8px;
+	overflow: hidden;
+	display: -webkit-box;
+	margin-bottom: .8rem;
+}
+#goshop a{
+	display: block;
+	-webkit-box-sizing: border-box;
+	-webkit-box-flex: 1; 
+	width:23%;
+	margin-left:.15rem;
+	height: 1rem;
+	line-height: 1rem;
+	border: 1px solid #ccc;
+	font-size: .5rem;
+	color: #666;
+	text-align: center;
+}
+
+#cards{
+	width: 100%;
+	margin: 0 auto;
+}
+#cards .card,#others{
+	-webkit-box-sizing: border-box;
+	margin-bottom: .5rem;
+	width: 100%;
+	padding: 1rem .4rem .2rem;
+	background: url(../images/card.gif) repeat-x;
+	background-size: .22rem .5rem;
+
+}
+#cards .title{
+	width: 100%;
+	height: 1rem;
+	line-height: .5rem;
+	text-align: center;
+}
+#cards .title span{
+	color: #1b1b1b;
+	font-size: .5rem;
+	font-weight: 700;
+}
+.c1.row1col1{
+	height:100%;
+	overflow: hidden;
+}
+.c1 .row1col1 a,
+.c1 .row2col2 .col1 a,
+.c1 .row2col2 .col2 .row1 a,
+.c1 .row2col2 .col2 .row2 a,
+.c2 .row1col1 a{
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	border-radius: 4px;
+	overflow: hidden;
+	text-align: center;
+	background-color: #e8e8e8;
+}
+.c1 .row1col1 a img{
+	width: 100%;
+	height: 5rem;
+}
+
+.c1 .row2col2{
+	margin-top: .1rem;
+	height: 5rem;
+	overflow: hidden;
+	display: -webkit-box;
+}
+.c1 .row2col2 .col1{
+	-webkit-box-flex: 1; 
+	margin-right: .1rem;
+	width: 100%;
+	height: 100%;
+}
+.c1 .row2col2 .col2{
+	-webkit-box-flex: 1; 
+	width: 100%;
+	height: 100%;
+}
+.c1 .row2col2 .col2 .row1,
+.c1 .row2col2 .col2 .row2{
+	width: 100%;
+	height: 2.5rem;
+}
+.c1 .row2col2 .col2 .row2{
+	margin-top: .1rem;
+}
+.c1 .row2col2 .col1 a img{
+	width: 100%;
+	height: 100%;
+}
+.c1 .row2col2 .col2 a img{
+	width: 100%;
+	height: 100%;
+}
+.c2 .row1col1.big{
+	margin-top: 0;
+	height: 5rem;
+}
+.c2 .row1col1{
+	-webkit-box-sizing: border-box;
+	width: 100%;
+	height: 3.5rem;
+	margin-top: 4px;
+	padding: 0 1px;
+	overflow: hidden;
+}
+.c2 .row1col1 img{
+	width: 100%;
+	height: 100%;
+
+}
+#others{
+	-webkit-box-sizing: border-box;
+	width: 100%;
+	margin: 0 auto;
+	padding-top: 1rem;
+	overflow: hidden;
+}
+
+#others .feedback{
+	height: 1rem;
+	line-height: 1rem;
+	position: relative;
+}
+#others .feedback a{
+	display: block;
+	width: 100%;
+	height: 100%;
+	font-size: .5rem;
+	color: #333;
+}
+#others .feedback a span{
+	color: #999;
+	right: .5rem;
+	font-weight: 700;
+	position: absolute;
+
+}
+
+#others .hots{
+	margin-bottom: 1rem;
+}
+#others .hots li{
+	width: 100%;
+	height: 1.5rem;
+	display: -webkit-box;
+}
+#others .hots a{
+	-webkit-box-flex: 1; 
+	display: block;
+	-webkit-box-sizing: border-box;
+	width: 100%;
+	height: 1.5rem;
+	line-height: 1.5rem;
+	text-align: center;
+	color: #333;
+	font-size: .5rem;
+}
+#others .hots a:first-child{
+	color: #f40;
+	font-size: .5rem;
+}
+
+#others .feedback ul{
+	margin-top: 10px;
+}
+
+
+
+.footer{
+	height: 3rem;
+	font-size: .5rem;
+	text-align: center;
+	background: url(../images/footer_bg.png) repeat-x 0 1rem;
+	background-size:100% 2rem;
+	background-repeat:no-repeat;
+
+}
+.footer .footer-t{
+	display: -webkit-box;
+	height: 1rem;
+	line-height: 1rem;
+	padding: 0 .3rem 0 .4rem;
+	background:linear-gradient(to bottom,#fefefe,#ededed);
+}
+.footer .footer-t .user{
+	-webkit-box-flex: 1;
+	display: -webkit-box;
+	text-align: left;
+}
+.footer a{
+	color: #047;
+}
+.footer .footer-t .top{
+	width: 3rem;
+	text-align: right;
+	font-size: .4rem;
+	font-weight: 700;
+}
+.footer .footer-t .top a{
+	display: inline-block;
+	position: relative;
+	color: #999;
+	text-transform: capitalize;
+	padding-right: .5rem;
+}
+.footer .footer-t .top a b{
+	position: absolute;
+	top: .3rem;
+	left: .8rem;
+	width: 0;
+	height: 0;
+	border-width: .1rem;
+	border-style: dashed dashed solid dashed;
+	border-color: transparent transparent #999;
+	font-size: 0;
+	overflow: hidden;
+}
+.footer .pc{
+	padding: .4rem 0 .2rem;
+}
+.footer .pc a:first-child{
+	padding-left: 0;
+}
+.footer .copyright{
+	color: #666;
+}
+.footer .copyright .server{
+	margin-left: .3rem;
+}
+
+

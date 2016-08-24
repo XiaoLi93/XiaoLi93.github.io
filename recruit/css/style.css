@@ -1,0 +1,180 @@
+
+body,ul,dd,p{
+	margin: 0;
+	padding: 0;
+}
+li {
+	list-style: none;
+}
+#wrap{
+	position: absolute;
+	margin:auto;
+	left: 0;
+	right: 0;
+	width: 65%;
+	height:600px;
+	overflow: hidden;
+	top:20px;
+
+}
+.left{
+	float:left;
+	width: 18%;
+}
+.right{
+	float:right;
+	width: 75%;
+} 
+
+body,div,p,li {
+	font-family: "Lucida Grande", Verdana, Lucida, Arial, Helvetica, Microsoft Yahei, simsun, sans-serif;
+	font-size: 12px;
+	color: #333; 
+}
+
+a:link,
+a:visited,
+a:active {
+	color: #333;     /*类黑色*/
+	text-decoration: none;
+}
+
+a:hover {
+	color: #e70;        /*橙色*/
+	text-decoration: none;
+}
+
+.title {
+	font-size: 30px;
+}
+			 		
+
+.left h2{
+	font-size: 16px;
+	margin-bottom: 30px;
+}  
+
+.left li {
+	margin-bottom: 5px;
+	font-family: "微软雅黑";
+}
+
+.left li a {
+	color: #333;        /*近黑*/
+	font-size: 14px;
+	display: block;
+	text-decoration: none;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+}
+
+.left li.focus a,
+.left li a:hover {
+	color: #fff;
+	background: #328fbe;    
+}
+
+
+.right .title {
+	padding: 50px 0 20px;
+}
+
+.right .info {
+	font-family: "微软雅黑";
+}
+ 
+.right .zp span {
+	font-size: 13px;
+	font-weight: bold;
+	margin-right: 30px;
+}
+
+.right .zp .date {
+	position: relative;
+	left: 30px;
+	font-weight: normal;
+}
+
+.right .yq {
+	color: #666;
+	line-height: 24px;
+	margin-bottom: 37px;
+	padding-top: 6px;
+}
+
+.right .yq a {
+	color: #328fbe;  
+} 
+
+
+.pages {
+	width: 700px;
+	height: 26px;
+	border: 1px solid #d6d6d6;/*浅灰*/
+	background: #e2e2e2;   /*浅灰*/
+	margin: 30px 0 40px;
+	position: relative;
+	line-height: 26px;
+	font-size: 20px;
+}
+
+.pages a.active{
+	background: #666;
+	color: #fff;
+}
+
+
+/******** content ********/
+
+
+.content h2 {
+	font-size: 16px;
+	font-weight: bold;
+	color: #328fbe;
+	font-family: "微软雅黑";
+}
+
+.content span {
+	float: left;
+	line-height: 24px;
+	color: #666;
+}
+
+.content span.l {
+	width: 400px;
+}
+
+.content dl,
+.content p {
+	margin-top: 26px;
+}
+
+.content dl dt {
+	line-height: 28px;
+}
+
+.content dl dd {
+	line-height: 24px;
+}
+
+.content {
+	padding-bottom: 20px;
+}
+
+.clear {
+	clear: both;
+	font-size: 0px;
+	width: 0px;
+	height: 1px;
+	visibility: hidden;
+	line-height: 0;
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>weibo</title>
+<link href="style/weibo_bak.css" rel="stylesheet" type="text/css" />
+<script src="myajax_1.1.0.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	/*
+		1.当点击按钮的时候 ，将输入的内容放到表中。请求这个接口。
+		
+	*/
+	window.onload=function(){
+		var text = document.getElementById('writeText');//输入框
+		var btn = document.getElementById('btn'); //按钮
+		var div1 = document.getElementById('div1');//插入内容box
+		var page = document.getElementsByClassName('page')[0];
+		var newPage2;
+		var hash = window.location.hash;
+		var hashs = 1;
+
+		/*
+			如果有hash值就走hash值，没有就默设置为1 
+		*/
+		if(!hash){
+			window.location.hash ='page=1';
+		}else{
+			hashs = hash.split('=')[1];
+		}
+		
+		newPage2 = hashs;
+
+		/*
+			点击按钮添加页面内容并且将数据传给服务器（后端）
+			
+			select() 既可以焦点触发也可以选中文本
+		*/
+		text.focus();
+		btn.onclick=function(){
+			var val=text.value;
+			val=val.replace(/^\s+|\s+$/,'');     //排除输入框全部是空格
+
+			if(!val){
+				alert('请输入内容');
+				text.value = '';
+				return;
+			}
+			else{    //将数据发送到后台添加数据
+				ajax({
+					url:'weibo.php',
+					method:"get",
+					data:'act=add&content='+val,
+					succ:function(json){
+						if(!json.error){
+							hashs = newPage2 = 1;
+							window.location.hash = 'page='+hashs;
+							createContent();      //生成页面内容
+							createPage();
+						}
+					}
+				});
+			}
+
+			if(div1.children.length>=7){
+				div1.removeChild(div1.lastElmentChild)
+
+			}
+			text.value = '';
+
+		}
+		//键盘enter发送
+		document.onkeyup=function(ev){
+			if(ev.keyCode==13){
+				btn.onclick();
+				text.value = '';
+			}
+		}
+
+
+		createContent();
+		function createContent(){
+			div1.innerHTML="";
+			ajax({          //页面一打开向后台请求页面数据
+				url:"weibo.php",
+				data:'act=get&page='+hashs,
+				method:"get",
+				succ:function(arr){
+					arr.forEach(function(ele,i){    
+						var div = createDiv(ele.content,ele);//获取到数据后，创建div显示到页面
+						div1.appendChild(div);
+					})
+
+				}
+			})
+
+
+		}
+
+		
+		/*  
+			生成页码，页面上最多显示7个页码号
+			设置hashs，用来表示中间页码、
+
+			小于7页时，直接生成页码，中间页码为hashs=count-3，
+				点击切换页码，中间页码仍为hashs=count-3
+
+			但大于7页时，可能需要显示大于7的页码，但是页面上只能显示7条页码，此时不显示哪些页码？
+				这时根据hashs的值来生成页码
+			 	当点击切换页码时，hashs=点击的页码号，如果页码号<4,那么中间位置则为4.
+			 	如果页码号大于4，那么判断hashs与count-3的关系，大于则hashs=count-3，小于则hashs=点击的页码号
+			确定了hashs的大小，即知道了哪个页码在中间，这时左右各生成3条页码数据即可，但是当页码数<1的时候跳出循环
+
+		*/
+		createPage();
+		function createPage(){
+			
+			ajax({
+				url:'weibo.php',
+				data:'act=get_page_count',
+				succ:function(json){
+					
+					if(json.count < 7){  //最大页码
+						hashs = json.count;
+					}else{
+
+						if(hashs < 4){
+							hashs = 4;
+						}
+					}
+					//hashs右边有三条数据，所以hashs不能大于总的页码-3
+					if(hashs > json.count-3){
+						hashs = json.count-3;
+					}
+					
+					page.innerHTML = '';   
+
+					for(var i=hashs-3;i<=hashs*1+3;i++){
+						if(i<1){        //小于1，跳出循环
+							continue;
+						}
+						
+						if(i == newPage2){   //生成页码数据
+							page.innerHTML += '<a href="javascript:;" class="active">'+(i)+'</a>';
+						}else{
+							page.innerHTML += '<a href="javascript:;">'+(i)+'</a>';
+						}
+					}
+
+					var pages = page.children;
+					for(var i=0;i<pages.length;i++){
+						pages[i].onclick = function(){
+							
+							hashs = this.innerHTML;
+							newPage2 = hashs;
+							window.location.hash = 'page='+hashs;
+		
+						}
+					}
+				}
+			});
+		}
+		
+		//点击页码的时候改变地址栏中的hash值，hash值变化，重新生成页面和页码
+		window.onhashchange = function(){
+			//alert(hashs)
+			createContent();
+			createPage();
+		}
+
+
+		//提交评论后生成div存放后端请求的数据，同时顶踩删操作
+		function createDiv(val,data){
+			var div = document.createElement('div');
+			div.className = 'reply';
+			div.innerHTML = '<p class="replyContent">'+val+'</p>'+
+	            		'<p class="operation">'+
+	               		'<span class="replyTime">'+getTime(data.time)+'</span>'+
+	                	'<span class="handle">'+
+	                	'<a href="javascript:;" class="top">'+data.acc+'</a>'+
+	                    '<a href="javascript:;" class="down_icon">'+data.ref+'</a>'+
+	                    '<a href="javascript:;" class="cut">删除</a>'+
+	                	'</span></p>';
+
+
+	        //顶一下，每天限制次数为此一次
+	        var listTop;
+	       	if(getCookie('listTop')){
+	       		//console.log(typeof getCookie('listTop'))
+	       		listTop = JSON.parse(getCookie('listTop'));	
+	       	}else{
+	       		listTop = [{"name":"top"}];
+	       	}
+	       	setCookie('listTop',JSON.stringify(listTop));
+	       	
+	       	div.onclick = function(ev){
+	       		if(ev.target.className == 'top'){
+	       			//alert(1)
+	       			var inner = ev.target.innerHTML*1;
+	       			var onOff = false; //假设没点；
+	       			
+					for(var i=0;i<listTop.length;i++){
+						
+						if(listTop[i].id == data.id){  //如果可以在缓存中查到id，就说明已经点击过了
+							onOff = true;
+						}
+	       			}
+					
+					if(!onOff){
+						ajax({
+							url:'weibo.php',
+							data:'act=acc&id='+data.id,
+							succ:function(json){
+								if(!json.error){
+									ev.target.innerHTML = ++inner;
+									alert('成功了');
+									listTop.push({"id":data.id})   
+									setCookie('listTop',JSON.stringify(listTop),1); //将点击后的id存入缓存
+								}
+							}
+						});
+					}else{
+						alert('你已经点过了')
+					}
+				}
+
+				//踩一下，此时为将数据写入缓存，所以此时没有限制
+				~function(){
+       				if(ev.target.className == 'down_icon'){
+	       			//alert(1)
+	       				var inner = ev.target.innerHTML*1;
+	       				ajax({
+							url:'weibo.php',
+							data:'act=ref&id='+data.id,
+							succ:function(json){
+								if(!json.error){
+									ev.target.innerHTML = ++inner;
+									alert('成功');
+								}
+							}
+						});
+	       			}
+       			}();
+				
+			
+       			//删除操作
+				if(ev.target.className == 'cut'){
+		   			//alert(1)
+		   			ajax({
+						url:'weibo.php',
+						data:'act=del&id='+data.id,
+						succ:function(json){
+							if(!json.error){
+								//alert(hashs)
+								hashs = window.location.hash.split('=')[1];
+								createContent();
+								createPage();
+							}
+						}
+					});
+		   		}
+			}
+			return div;
+		}
+	
+
+
+		function getTime(t){
+			//后端传过来的时间是秒，要将秒转成毫秒
+			var oDate = new Date(t*1000);
+			var iFu = oDate.getFullYear();
+			var iMon = oDate.getMonth()+1;
+			var iDate = oDate.getDate();
+			var iHour = oDate.getHours();
+			var iMi = oDate.getMinutes();
+			var iSe = oDate.getSeconds();
+			
+			return iFu + '-' + toDou(iMon) + '-' + toDou(iDate) +' ' +toDou(iHour)+':'+toDou(iMi)+':'+toDou(iSe)
+		}
+		
+		function toDou(n){
+			return n<10?'0'+n:''+n;
+		}
+
+
+		//顶一下或踩一下首先会在cooie中缓存查看有没有记录，有记录说明已经操作过无法重复操作
+		function getCookie(key){
+			var str = document.cookie;
+			var arr = str.split('; ');
+			console.log(arr)
+
+			for(var i=0;i<arr.length;i++){
+				var keys = arr[i].split('=')[0];
+				var values = arr[i].split('=')[1];
+				console.log(values)
+				if(key){
+					if(keys === key){   //判断对象有没有进行缓存
+						return values;			
+					}
+				}
+			}
+			return '';
+		}
+
+
+		function setCookie(key,value,time){
+			time = time || 0;      //设置多少天会删除cookie
+			var date = new Date();
+			date.setDate(date.getDate()+time);
+			document.cookie = key+'='+value+';expires='+date;
+			
+		}
+
+
+
+	}
+	
+
+
+	
+</script>
+</head>
+<body>
+<div class="box">
+<!--写评论-->
+     <div class="takeComment">
+        <textarea name="textarea" class="textField" id="writeText"></textarea>
+        <div class="submitComment">
+            <input type="button" id="btn" class="inputs" value="" />
+            <span>(可按 Enter 回复)</span>
+        </div>
+    </div>
+<!--已留-->
+    <div class="commented">
+        <div class="content" id="div1" style="height:502px">
+        	<!--<div class="reply">
+                <p class="replyContent">计算机应用相关知识</p>
+                <p class="operation">
+                    <span class="replyTime">2015-09-08 16:37:60</span>
+                    <span class="handle">
+                    	<a href="javascript:;" class="top">0</a>
+                        <a href="javascript:;" class="down_icon">0</a>
+                        <a href="javascript:;" class="cut">删除</a>
+                    </span>
+                </p>
+            </div>-->
+        </div>
+        <div class="page">
+        	<a href="javascript:;" class="active">1</a>
+        	<a href="javascript:;">2</a>
+        	<a href="javascript:;">3</a>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
