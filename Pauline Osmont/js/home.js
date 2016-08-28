@@ -17,6 +17,7 @@ window.onload=function(){
     var arr=[logosmall,menuworks];
     var lastclass="";          //存放获取到的body  class属性
     var ishome=true;      //点击前和点击后的开关
+    var isabout=true;
     var position,op=0;
     //引入json数据
     var projetLists=projetList;
@@ -102,7 +103,7 @@ window.onload=function(){
 
 
         //当第二层背景图片上滑到顶端时，添加grid_bg.className='fx';    固定定位
-       if(document.body.scrollTop>=document.documentElement.clientHeight-60){
+       if((document.body.scrollTop || document.documentElement.scrollTop)>=document.documentElement.clientHeight-60){
 
             var lastclass1=grid_bg.getAttribute('class');       
             if(!grid_bg.className){   
@@ -129,11 +130,11 @@ window.onload=function(){
 
 
         //当滚动条距离<220时，nav不做任何改变
-        if(document.body.scrollTop<220 && ishome && !hasClass(document.body,'about')){  
+        if((document.body.scrollTop || document.documentElement.scrollTop)<220 && ishome && !hasClass(document.body,'about')){  
             nav.className='';
         }
      
-        else if(220<document.body.scrollTop && document.body.scrollTop<document.documentElement.clientHeight-60 && !hasClass(document.body,'about') ){
+        else if(220<(document.body.scrollTop || document.documentElement.scrollTop) && (document.body.scrollTop || document.documentElement.scrollTop)<document.documentElement.clientHeight-60 && !hasClass(document.body,'about') ){
             nav.className='enter';      //nav缩小
             nav.style.top=grid_bg.getBoundingClientRect().top+90+"px";
         }
@@ -145,7 +146,7 @@ window.onload=function(){
 
 
         //滚动到最后显示footer(滚动距离+可视区距离=网页总高度)
-        if(document.body.scrollTop>=document.body.scrollHeight-document.documentElement.clientHeight-20  &&document.body.scrollTop!=0){
+        if((document.body.scrollTop || document.documentElement.scrollTop)>=document.body.scrollHeight-document.documentElement.clientHeight-20  &&document.body.scrollTop!=0){
             addClass(footer,'visible');
         }
         else{
@@ -182,9 +183,9 @@ window.onload=function(){
             ishome=false;
             
             //当grid_bg没被定位在最上方时点击图片
-            if(document.body.scrollTop<document.documentElement.clientHeight){
+            if((document.body.scrollTop || document.documentElement.scrollTop)<document.documentElement.clientHeight){
                 addClass(nav,'enter',' navtop');  
-                Toscroll(true);
+                Toscroll('true');
             }
 
             //让grid的内容消失
@@ -236,7 +237,7 @@ window.onload=function(){
             //直接返回到最上面
             var up=document.getElementById('up');
             up.onclick=function(){
-                Toscroll(false);   //true为向下，false为滚动条向上
+                Toscroll('false');   //true为向下，false为滚动条向上
             }
             
         }
@@ -377,7 +378,26 @@ window.onload=function(){
     for(var i=0;i<arr.length;i++){
         //console.log(arr[1]);
         arr[i].addEventListener('click',function(){
-            if(!ishome){
+            if(!isabout){
+                isabout=true;
+              
+                deleteClass(grid_bg,'fx');
+                deleteClass(document.body,'about');
+                deleteClass(nav,'navtop');  
+                nav.style.top="500px";
+                setTimeout(function() { 
+                    deleteClass(nav,'enter');
+                    addClass(about,"pfix");           
+                }, 2300);    
+                setTimeout(function() { 
+                    deleteClass(grid,'fade');
+                    
+                }, 20); 
+
+ 
+
+            }
+            else if(!ishome){
                 closeprojet();
                 deleteClass(grid,"fade");
                 if(hasClass(this,'menuworks')){
@@ -402,13 +422,13 @@ window.onload=function(){
                 
                 if(hasClass(this,'menuworks')){
                     
-                    if(document.body.scrollTop<document.documentElement.clientHeight){
+                    if((document.body.scrollTop || document.documentElement.scrollTop)<document.documentElement.clientHeight){
                         addClass(nav,'enter',' navtop');  
-                        Toscroll(true);  
+                        Toscroll('true');  
                     }
                 }
                 else{ 
-                    Toscroll(false);
+                    Toscroll('false');
                     nav.style.top="500px";     
                 }
 
@@ -425,6 +445,7 @@ window.onload=function(){
     //直接点击nav中的menuabout跳转到其他页面
 
     menuabout.addEventListener('click',function(){
+        isabout=false;
         if(!ishome){
             closeprojet();
             addClass(document.body,'about');
@@ -434,19 +455,17 @@ window.onload=function(){
             addClass(nav,'enter');
             addClass(document.body,'about');
             
-            var t=document.body.scrollTop;
+            var t=(document.body.scrollTop || document.documentElement.scrollTop);
             setTimeout(function() { 
-                Toscroll(false);
-
+                Toscroll('false');
                 nav.style.top="500px";
                 deleteClass(about,"pfix");
-                addClass(grid,'enter');
-                addClass(grid_bg,'enter');   
+        
                
-            }, 500);    
+            }, 800);    
             setTimeout(function() { 
                 addClass(grid,'fade');
-            }, 1000);
+            }, 10);
             about.style.zIndex=10; 
         }  
 
@@ -511,28 +530,31 @@ window.onload=function(){
 
     function Toscroll(boolean){
         
-        var t=document.body.scrollTop;
+        var t=(document.body.scrollTop || document.documentElement.scrollTop);
         console.log(t);
-        if(boolean){
+        if(boolean==='true'){
             var timer=setInterval(function(){
-                t+=5;
+                t+=15;
+                console.log(t);
+                console.log(document.documentElement.clientHeight);
                 window.scrollTo(0,t);
                 if(t>=document.documentElement.clientHeight){
                     clearInterval(timer);
                 }
-            });
+            },1);
 
         }
         else{
             var timer=setInterval(function(){
-                t-=5;
-                console.log(document.body.scrollTop);
+                t-=15;
+                console.log(t);
+                console.log((document.body.scrollTop || document.documentElement.scrollTop));
                 window.scrollTo(0,t);
                 
                 if(t<0){
                     clearInterval(timer);
                 }
-            });
+            },1);
 
         }
 

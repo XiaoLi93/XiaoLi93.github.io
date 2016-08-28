@@ -111,7 +111,7 @@ body {
   float: left;
   width: 300px;
   padding: 0 20px;
-  background-color: #185eb5;
+  background-color: #1deed3;
   padding-bottom: 10000px;
   margin-bottom: -10000px;
   -webkit-box-sizing: border-box;
@@ -121,7 +121,7 @@ body {
     font-size: 18px;
     line-height: 40px;
     font-weight: normal;
-    color: #9f3; }
+    color: orange; }
 
 .header {
   width: 160px;
@@ -186,7 +186,7 @@ body {
     top: 0;
     left: 0;
     height: 100%;
-    background-color: #1deed3;
+    background-color: blue;
     border-radius: 20px 0 0 20px; }
 
 .describe {
@@ -194,7 +194,7 @@ body {
   padding-bottom: 40px;
   font-size: 16px;
   line-height: 1.5;
-  color: #e3d8d8;
+  color: #fff;
   text-indent: 2em;
   text-align: justify; }
   .describe p {
